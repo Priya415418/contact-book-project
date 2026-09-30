@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Book</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+
+                <div>
+                    <h2>Contact Book</h2>
+                    <p>Keep your friends close ♡</p>
+                </div>
+            </div>
+
+            <nav>
+                <button class="nav-item active">
+                    <i class="fa-solid fa-house"></i>
+                    Home
+                </button>
+
+                <button class="nav-item" onclick="openModal()">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Add Contact
+                </button>
+
+                <button class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    All Contacts
+                </button>
+
+                <button class="nav-item" onclick="showFavorites()">
+                    <i class="fa-solid fa-star"></i>
+                    Favorites
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="dark-mode">
+                    <span>
+                        <i class="fa-solid fa-moon"></i>
+                        Dark Mode
+                    </span>
+
+                    <label class="switch">
+                        <input type="checkbox" id="darkToggle"
+                               onchange="toggleDarkMode()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="quote">
+                    Better Connections<br>
+                    Bigger Dreams ♡
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main">
+
+            <!-- Top Bar -->
+            <header class="topbar">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by name, phone or email..."
+                        onkeyup="searchContacts()">
+
+                </div>
+
+                <div class="profile">
+                    <i class="fa-solid fa-bell"></i>
+
+                    <div class="profile-circle">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+            </header>
+
+
+            <!-- Statistics -->
+            <section class="stats">
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <p>Total Contacts</p>
+                        <h2 id="totalContacts">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card yellow">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <div>
+                        <p>Favorites</p>
+                        <h2 id="favoriteCount">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+
+                    <div>
+                        <p>Recently Added</p>
+                        <h2 id="recentCount">0</h2>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Contact Heading -->
+            <div class="contact-heading">
+
+                <div>
+                    <h1>All Contacts <span id="headingCount">(0)</span></h1>
+                    <p>Manage your contacts easily</p>
+                </div>
+
+                <button class="add-btn" onclick="openModal()">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Contact
+                </button>
+
+            </div>
+
+
+            <!-- Contacts -->
+            <section id="contactList" class="contact-list"></section>
+
+        </main>
+
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal" id="contactModal">
+
+        <div class="modal-box">
+
+            <button class="close-btn" onclick="closeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-title">
+                <div class="modal-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+
+                <div>
+                    <h2 id="modalTitle">Add New Contact</h2>
+                    <p>Save contact information</p>
+                </div>
+            </div>
+
+
+            <form id="contactForm">
+
+                <input type="hidden" id="editId">
+                <label>profile photo</label>
+                <div class="photo-upload">
+                    <div class="photo-preview"id="photopreview">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <div>
+                        <input type="file"id="photo"accept="image/*"
+                        onchange="previewphoto(event)">
+                        <small>choose a contact photo</small>
+
+                    </div>
+                </div>    
+
+                <label>Name *</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                           id="name"
+                           placeholder="Enter full name"
+                           required>
+                </div>
+
+
+                <label>Phone *</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel"
+                           id="phone"
+                           placeholder="Enter phone number"
+                           required>
+                </div>
+
+
+                <label>Email</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email"
+                           id="email"
+                           placeholder="Enter email address">
+                </div>
+
+
+                <label>Address</label>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text"
+                           id="address"
+                           placeholder="Enter address">
+                </div>
+
+
+                <label class="favorite-label">
+
+                    <span>
+                        <i class="fa-solid fa-star"></i>
+                        Add to Favorite
+                    </span>
+
+                    <input type="checkbox" id="favorite">
+
+                </label>
+
+
+                <div class="modal-buttons">
+
+                    <button type="button"
+                            class="cancel-btn"
+                            onclick="closeModal()">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save Contact
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="notificationText">Contact added!</span>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
